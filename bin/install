@@ -2,7 +2,6 @@
 
 set -e
 set -o pipefail
-set -x
 
 install_aws-iam-authenticator() {
   local install_type=$1
