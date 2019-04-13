@@ -1,0 +1,11 @@
+language: c
+before_script:
+  - git clone https://github.com/asdf-vm/asdf.git
+  - . asdf/asdf.sh
+script:
+  - asdf plugin-add aws-iam-authenticator ./
+  - asdf list-all aws-iam-authenticator
+  - asdf plugin-test aws-iam-authenticator ./ 'aws-iam-authenticator version' --asdf-tool-version 0.3.0
+os:
+  - linux
+  - osx
