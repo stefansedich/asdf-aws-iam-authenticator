@@ -5,7 +5,7 @@ before_script:
 script:
   - asdf plugin-add aws-iam-authenticator ./
   - asdf list-all aws-iam-authenticator
-  - asdf plugin-test aws-iam-authenticator ./ 'aws-iam-authenticator version' --asdf-tool-version 0.3.0
+  - asdf plugin-test aws-iam-authenticator ./ 'aws-iam-authenticator version' --asdf-tool-version 0.4.0-alpha.1
 os:
   - linux
   - osx
