@@ -30,12 +30,13 @@ install_aws-iam-authenticator() {
   rm -f $binary_path 2>/dev/null || true
 
   echo "Copying binary"
-  cp "${tmp_download_dir}/aws-iam-authenticator_${version}_${platform}" ${binary_path}
+  cp ${download_path} ${binary_path}
   chmod +x ${binary_path}
 }
 
 get_filename() {
-  local version="$1"
+  # Strip v prefix from version
+  local version=$(echo $1 | sed 's/v\{0,1\}//;s///')
   local platform="$2"
 
   echo "aws-iam-authenticator_${version}_${platform}"
@@ -46,7 +47,7 @@ get_download_url() {
   local platform="$2"
   local filename="$(get_filename $version $platform)"
 
-  echo "https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${version}/${filename}"
+  echo "https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/${version}/${filename}"
 }
 
 install_aws-iam-authenticator $ASDF_INSTALL_TYPE $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
