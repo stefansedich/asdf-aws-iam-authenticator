@@ -1,0 +1,26 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  asdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install asdf dependencies
+        uses: asdf-vm/actions/install@v1
+
+      - name: Run plugin test
+        run: asdf plugin test asdf-aws-iam-authenticator .
+
+      - name: Run plugin add
+        run: asdf plugin add assh https://github.com/zekker6/asdf-aws-iam-authenticator.git
+
+      - name: Run install
+        run: asdf install asdf-aws-iam-authenticator latest
