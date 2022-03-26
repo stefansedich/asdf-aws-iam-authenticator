@@ -20,7 +20,7 @@ jobs:
         run: asdf plugin test asdf-aws-iam-authenticator .
 
       - name: Run plugin add
-        run: asdf plugin add assh https://github.com/zekker6/asdf-aws-iam-authenticator.git
+        run: asdf plugin add asdf-aws-iam-authenticator https://github.com/zekker6/asdf-aws-iam-authenticator.git
 
       - name: Run install
         run: asdf install asdf-aws-iam-authenticator latest
