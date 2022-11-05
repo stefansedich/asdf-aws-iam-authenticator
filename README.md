@@ -1,6 +1,6 @@
 # asdf-aws-iam-authenticator
 
-[![Test](https://github.com/zekker6/asdf-envcli/actions/workflows/test.yml/badge.svg)](https://github.com/zekker6/asdf-envcli/actions/workflows/test.yml)
+[![Test](https://github.com/zekker6/asdf-aws-iam-authenticator/actions/workflows/test.yml/badge.svg)](https://github.com/zekker6/asdf-aws-iam-authenticator/actions/workflows/test.yml)
 
 [AWS IAM authenticator](https://github.com/kubernetes-sigs/aws-iam-authenticator) plugin for the [asdf](https://github.com/asdf-vm/asdf) version manager.
 

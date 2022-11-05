@@ -17,6 +17,8 @@ jobs:
         uses: asdf-vm/actions/install@v1
 
       - name: Run plugin test
+        env:
+          GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: asdf plugin test asdf-aws-iam-authenticator .
 
       - name: Run plugin add
