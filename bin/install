@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 set -o pipefail
 
 install_aws-iam-authenticator() {
   local install_type=$1
   local version=$2
   local install_path=$3
-  local platform="$(uname | tr '[:upper:]' '[:lower:]')_amd64"
+  local arch=$(uname -m | sed 's/aarch64/arm64/g; s/x86_64/amd64/g')
+  local platform="$(uname | tr '[:upper:]' '[:lower:]')_${arch}"
   local bin_install_path="$install_path/bin"
   local binary_path="$bin_install_path/aws-iam-authenticator"
   local download_url=$(get_download_url $version $platform)

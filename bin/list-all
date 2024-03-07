@@ -1,18 +1,32 @@
 #!/usr/bin/env bash
 
-releases_path=https://api.github.com/repos/kubernetes-sigs/aws-iam-authenticator/releases
-cmd="curl -s"
-if [ -n "$GITHUB_API_TOKEN" ]; then
-  cmd="$cmd -H 'Authorization: token $GITHUB_API_TOKEN'"
-fi
-cmd="$cmd $releases_path"
+# based on asdf-vm template repository
+# https://github.com/asdf-vm/asdf-plugin-template/blob/main/template/lib/utils.bash
 
-# stolen from https://github.com/rbenv/ruby-build/pull/631/files#diff-fdcfb8a18714b33b07529b7d02b54f1dR942
-function sort_versions() {
-  sed 'h; s/[+-]/./g; s/.p\([[:digit:]]\)/.z\1/; s/$/.z/; G; s/\n/ /' | \
+set -euox pipefail
+
+curl_opts=(-fsSL)
+
+# NOTE: You might want to remove this if <YOUR TOOL> is not hosted on GitHub releases.
+if [ -n "${GITHUB_API_TOKEN:-}" ]; then
+  curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
+fi
+
+sort_versions() {
+  sed 'h; s/[+-]/./g; s/.p\([[:digit:]]\)/.z\1/; s/$/.z/; G; s/\n/ /' |
     LC_ALL=C sort -t. -k 1,1 -k 2,2n -k 3,3n -k 4,4n -k 5,5n | awk '{print $2}'
 }
 
-# Fetch all tag names, and get only second column. Then remove all unnecessary characters.
-versions=$(eval $cmd | grep -oE "tag_name\": *\".{1,15}\"," | sed 's/tag_name\": *\"v\{0,1\}//;s/\",//')
-echo $versions
+
+list_github_tags() {
+  curl "${curl_opts[@]}" "https://api.github.com/repos/kubernetes-sigs/aws-iam-authenticator/releases?per_page=100" |
+    grep -E -o '"tag_name": "(.*)?"' | awk -F':' '{print $2}' |
+    sed 's/"//g' | sed 's/v//g' # NOTE: You might want to adapt this sed to remove non-version strings from tags
+}
+
+list_all_versions() {
+  list_github_tags
+}
+
+
+list_all_versions | sort_versions | xargs echo
